@@ -7,10 +7,27 @@ export default function Login() {
     
     const navigate = useNavigate();
 
+	// token validate
+	const apiAuthUrl = "http://localhost:8000/api/user";
     const bearerToken = localStorage.getItem("BEARER_TOKEN");
-    if (bearerToken != null) {
-        console.warn("token found!");
-        navigate("/dashboard");
+
+    try {
+        fetch(apiAuthUrl, {
+            method: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + bearerToken
+            }
+        })
+        .then(
+            response => {
+                console.warn(response.ok);
+                if(!response.ok){
+                    navigate("/login");
+                }
+            }
+            )
+    } catch (e) {
+        console.error(e);
     }
 
     const loginUser = (event) => {

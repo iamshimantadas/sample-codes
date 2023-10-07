@@ -7,17 +7,15 @@ const apiAuthUrl = "http://localhost:8000/api/user";
             headers: {
                 'Authorization': 'Bearer ' + bearerToken
             }
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (data.message) {
-                    console.warn("token is valid");
-
-                } else {
-                    console.error("token is invalid!");
+        })
+        .then(
+            response => {
+                console.warn(response.ok);
+                if(!response.ok){
                     navigate("/login");
                 }
-            });
+            }
+            )
     } catch (e) {
         console.error(e);
     }

@@ -8,29 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
 
-    const apiAuthUrl = "http://localhost:8000/api/user";
-    const bearerToken = localStorage.getItem("BEARER_TOKEN");
-    const navigate = useNavigate();
-    try {
-        fetch(apiAuthUrl, {
-            method: "GET",
-            headers: {
-                'Authorization': 'Bearer ' + bearerToken
-            }
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (data.message) {
-                    console.warn("token is valid");
 
-                } else {
-                    console.error("token is invalid!");
-                    navigate("/login");
-                }
-            });
-    } catch (e) {
-        console.error(e);
-    }
 
 
     return (
