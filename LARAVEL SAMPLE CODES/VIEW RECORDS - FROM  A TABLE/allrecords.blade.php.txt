@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>all records</title>
+</head>
+<body>
+
+@foreach($records as $record)
+<table border="2px">
+    <tr>
+        <th>EMAIL</th> <th>PASSWORD</th> <th>DATE OF BIRTH</th> <th>PHONE</th> <th>GENDER</th> <th>PROFILE</th>
+    </tr>
+    <tr>
+        <td>
+        {{ $record->emailid }}
+        </td>
+        <td>
+        {{ $record->password }}
+        </td>
+        <td>
+        {{ $record->dob }}
+        </td>
+        <td>
+        {{ $record->phone }}
+        </td>
+        <td>
+        {{ $record->gender }}
+        </td>
+        <td>
+            <img src="img/{{ $record->imagename }}" style="max-height:100px;max-width:200px;" alt="">
+        </td>
+    </tr>
+</table>
+@endforeach
+
+    
+    
+    
+
+</body>
+</html>

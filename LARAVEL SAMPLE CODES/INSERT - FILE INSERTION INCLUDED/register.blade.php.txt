@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>registration page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body>
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+
+        <form action="{{url('/')}}/registeruser" method="post" enctype="multipart/form-data">
+            @csrf
+  <div class="mb-3">
+    <label for="uemail" class="form-label">Email address</label>
+    <span style="color:red;">
+    @error('uemail')
+    {{ $message }}
+    @enderror
+  </span>
+    <input type="email" value="{{ old('uemail') }}" class="form-control" name="uemail" id="uemail" aria-describedby="emailHelp" required>
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+ 
+  <div class="mb-3">
+    <label for="upass" class="form-label">Password</label>
+    <span style="color:red;">
+    @error('upass')
+    {{ $message }}
+    @enderror
+  </span>
+    <input type="password" value="{{ old('upass') }}" class="form-control" name="upass" id="upass" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="udob" class="form-label">Date of birth</label>
+    <span style="color:red;">
+    @error('udob')
+    {{ $message }}
+    @enderror
+  </span>
+    <input type="date" value="{{ old('udob') }}" class="form-control" name="udob" id="udob" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="uphone" class="form-label">Phone Number</label>
+    <span style="color:red;">
+    @error('uphone')
+    {{ $message }}
+    @enderror
+  </span>
+    <input type="text" value="{{ old('uphone') }}" class="form-control" name="uphone" id="uphone" required>
+  </div>
+ 
+  <select class="form-select" value="{{ old('gender') }}" name="gender" id="gender" aria-label="Default select example" required>
+  <option selected value="{{ old('gender') }}">select menu</option>
+  <option value="male">Male</option>
+  <option value="female">Female</option>
+  <option value="other">Trans</option>
+</select>
+<span style="color:red;">
+    @error('gender')
+    {{ $message }}
+    @enderror
+  </span>
+<br>
+
+
+<input type="file" value="{{ old('upic') }}" name="upic" id="upic" required>
+<br>
+<span style="color:red;">
+    @error('upic')
+    {{ $message }}
+    @enderror
+  </span>
+<br>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </body>
+</html>

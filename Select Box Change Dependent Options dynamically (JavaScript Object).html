@@ -1,0 +1,32 @@
+<div class="wrapper">
+	<select id="parent_select"><option>----</option></select>
+	<select id="child_select"></select>
+</div>
+
+<script language="javascript" type="text/javascript">  
+var mList = {
+	Chocolates : ['Bournville', 'Snickers', 'Twix', 'Ferrero Rocher', 'Dark Chocolate', 'Milk chocolate', 'White chocolate', 'Gianduja chocolate'],
+	Vegetables :  ['Broccoli', 'Cabbage', 'Carrot', 'Cauliflower'],
+	Icecreams :  ['Black Raspberry', 'Frozen pudding', 'Neapolitan', 'Strawberry', 'Vanilla', 'Chokecherry', 'Frozen yogurt', 'Booza', 'Frozen yogurt', 'Ice milk'],
+	Mobiles :  ['Apple iPhone', 'Samsung Galaxy', 'Realme', 'Huawei', 'OnePlus', 'Asus ROG', 'Xiaomi', 'Vivo']
+};
+
+el_parent = document.getElementById("parent_select");
+el_child = document.getElementById("child_select");
+
+for (key in mList) {
+	el_parent.innerHTML = el_parent.innerHTML + '<option>'+ key +'</option>';
+}
+
+el_parent.addEventListener('change', function populate_child(e){
+	el_child.innerHTML = '';
+	itm = e.target.value;
+	if(itm in mList){
+			for (i = 0; i < mList[itm].length; i++) {
+				el_child.innerHTML = el_child.innerHTML + '<option>'+ mList[itm][i] +'</option>';
+			}
+	}
+});
+
+</script>
+<!-- code link -->

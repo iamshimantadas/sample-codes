@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Records;
+
+class RegistrationController extends Controller
+{
+    public function save(Request $req){
+        $conn = mysqli_connect("localhost","root","","laradb1");
+
+        $req->validate([
+            'uemail'=>'required|email',
+            'upass'=>'required',
+            'udob'=>'required|date_format:Y-m-d',
+            'uphone'=>'required|digits:10',
+            'gender'=>'required',
+            'upic'=>'required'
+        ]);
+
+         $email = $req['uemail'];
+        $password = $req['upass'];
+        $date = $req['udob'];
+        $phone = $req['uphone'];
+        $gen = $req['gender'];
+        $pic = $req['upic'];
+       
+        // filter user inputs
+        $email = mysqli_real_escape_string($conn,$email);
+        $password = mysqli_real_escape_string($conn,$password);
+        $date = mysqli_real_escape_string($conn,$date);
+        $phone = mysqli_real_escape_string($conn,$phone);
+        $gen = mysqli_real_escape_string($conn,$gen);
+        $pic = mysqli_real_escape_string($conn,$pic);
+
+        $email = htmlspecialchars($email);
+        $password = htmlspecialchars($password);
+        $date = htmlspecialchars($date);
+        $phone = htmlspecialchars($phone);
+        $gen = htmlspecialchars($gen);
+        $pic = htmlspecialchars($pic);
+
+       
+        // saving record into table ... 
+        $rec = new Records;
+        $rec->emailid = $email;
+        $rec->password =  md5($password);
+        $rec->dob = $date;
+        $rec->phone = $phone;
+        $rec->gender = $gen;
+
+		/*
+		this will save image in 3 positions - 
+		public\img\wu6gYXBG8BDqnkeApHAXnKlgDGfOlZgoIXCL1wWS.jpg
+		storage\app\wu6gYXBG8BDqnkeApHAXnKlgDGfOlZgoIXCL1wWS.jpg
+		storage\app\public\images\wu6gYXBG8BDqnkeApHAXnKlgDGfOlZgoIXCL1wWS.jpg
+		after this image will publically accessable by thelast line, bcz it's shifts into /public directory
+		*/
+        $public_des_path='public/images';
+        $fname = $req->file('upic');
+        $rec->imagename =  $fname = $req->file('upic')->store('');
+        $req->file('upic')->storeAs($public_des_path,$fname);
+        $req->file('upic')->move('img/',$fname);
+
+        //$rec->imagename = $pic;
+        $rec->save();
+
+        
+    }
+}

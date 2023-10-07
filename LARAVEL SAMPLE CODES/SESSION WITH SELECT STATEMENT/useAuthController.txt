@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Session;
+
+class UserAuthController extends Controller
+{
+    public function Auth(Request $req){
+        $mail = $req['uemail'];
+        $pass =  $req['upass'];
+       $data = DB::select('select * from newusers where email = ? && pass = ?', [$mail,$pass]);
+       if($data){
+        Session::put('mail', $mail);
+        return view('dashboard');
+      //  return view('data',['data'=>$data]);
+       }else{
+        return view('dashboard');
+       }
+       
+    }
+
+    public function loggedOut(){
+        session()->forget('mail');
+        session()->flush();
+        return view('welcome');
+    }
+}

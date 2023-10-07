@@ -1,0 +1,86 @@
+import { useState } from "react"
+import { useNavigate } from "react-router";
+
+export default function Register() {
+
+    // states
+    const[name,setName]=useState("");
+    const[email,setEmail]=useState("");
+    const[password,setPassword]=useState("");
+    const[confirm_password,setConfirmPassword]=useState("");
+
+    const navigate = useNavigate();
+
+    const bearerToken = localStorage.getItem("BEARER_TOKEN");
+    if (bearerToken != null) {
+        console.warn("token found!");
+        navigate("/dashboard");
+    }
+
+    const saveForm = (event) => {
+        event.preventDefault();
+        console.log("name is: "+name);
+        console.log("email is: "+email);
+        console.log("password is: "+password);
+        console.log("confirm password is: "+confirm_password);
+        if(password!=confirm_password){
+            alert("Both Passwords Not Match!");
+        }else{
+            try{
+                let item = {name,email,password,confirm_password};
+            
+            fetch("http://localhost:8000/api/register",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Accept":"application/json"
+            },
+            body: JSON.stringify(item)
+            });
+
+            setName("");
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+            navigate("");
+            
+            }catch(e){
+                console.error(e);
+            }
+        }
+    }
+
+    return (
+        <>
+        <div className="row">
+            <div className="col-2"></div>
+            <div className="col-8">
+                {/* registration form */}
+
+                <form onSubmit={saveForm}>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" name="name" id="name" value={name} onChange={(e)=>setName(e.target.value)} aria-describedby="emailHelp" placeholder="Enter name" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" name="email" id="email" value={email} onChange={(e)=>setEmail(e.target.value)} aria-describedby="emailHelp" placeholder="Enter email" required />
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} required />
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" class="form-control" name="confirm_password" id="confirm_password" value={confirm_password} onChange={(e)=>setConfirmPassword(e.target.value)} aria-describedby="emailHelp" placeholder="Enter name" required />
+                </div>
+                <br />
+                <button type="submit" class="btn btn-warning">Register</button>
+            </form>
+            </div>
+            <div className="col-2"></div>
+        </div>
+        </>
+    )
+}

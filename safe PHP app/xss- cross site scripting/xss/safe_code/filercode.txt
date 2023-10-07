@@ -1,0 +1,16 @@
+   
+$name =    $_POST['name'];
+$uname =   $_POST['uname'];
+$upass =    $_POST['upass'];
+
+
+// filtering script during insertion, by using that anyone can't hack via cross-site scripting
+
+$name = mysqli_real_escape_string($conn,$name);
+$uname = mysqli_real_escape_string($conn,$uname);
+$upass = mysqli_real_escape_string($conn,$upass);
+// escaping special-chars from variables.
+
+$name = htmlspecialchars($name);
+$uname = htmlspecialchars($uname);
+$upass = htmlspecialchars($upass);

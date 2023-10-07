@@ -1,0 +1,59 @@
+import { useState } from "react"
+import { useNavigate } from "react-router";
+
+export default function Login() {
+    const[email,setEmail] = useState("");
+    const[password,setPassword] = useState("");
+    
+    const navigate = useNavigate();
+
+    const bearerToken = localStorage.getItem("BEARER_TOKEN");
+    if (bearerToken != null) {
+        console.warn("token found!");
+        navigate("/dashboard");
+    }
+
+    const loginUser = (event) => {
+        event.preventDefault();
+        console.log("Email is: "+email);
+        console.log("Password is: "+password);
+
+        let item = {email,password};
+
+        fetch("http://localhost:8000/api/login",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Accept":"application/json"
+            },
+            body: JSON.stringify(item)
+        }).then(response=>response.json())
+        .then(data=>{
+            if(data.token){
+                localStorage.setItem("BEARER_TOKEN",data.token);
+                alert(data.message);
+                navigate("/dashboard"); 
+            }else{
+                alert(data.message + "Try Again!");
+            }
+        });
+    }
+
+    return (
+        <>
+            <form onSubmit={loginUser}>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" value={email} onChange={(e)=>setEmail(e.target.value)} aria-describedby="emailHelp" placeholder="Enter email" required />
+                    <small id="email" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Password" required />
+                </div>
+                <br />
+                <button type="submit" class="btn btn-success">Login</button>
+            </form>
+        </>
+    )
+}

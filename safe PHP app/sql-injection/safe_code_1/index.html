@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sql-injection attack(login form)</title>
+</head>
+<body>
+    
+<br>
+<br>
+
+<h3>login form</h3>
+<br>
+<br>
+<!-- sql-injection code
+test' or 1=1#
+-->
+<form action="auth.php" method="post">
+   
+    <font style="font-size: 20px;">Enter username</font>
+    <input type="text" name="uname" required>
+    <br><br>
+    <font style="font-size: 20px;">Enter password</font>
+    <input type="text" name="upass" required>
+    <br><br>
+    <input name="submit" type="submit" value="submit">
+    
+</form>
+
+</body>
+</html>
